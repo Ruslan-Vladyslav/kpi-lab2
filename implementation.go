@@ -19,12 +19,10 @@ func PrefixToPostfix(input string) (string, error) {
 	for i := len(tokens) - 1; i >= 0; i-- {
 		token := tokens[i]
 
-		_, err := strconv.ParseFloat(token, 64)
-
-		if err == nil {
+		if isValidNumber(token) {
 			stack = append(stack, token)
 		} else {
-			if token == "+" || token == "-" || token == "*" || token == "/" || token == "^" {
+			if IsValidToken(token) {
 				if len(stack) < 2 {
 					return "", fmt.Errorf("invalid prefix expression")
 				}
@@ -59,4 +57,14 @@ func PrefixToPostfix(input string) (string, error) {
 	}
 
 	return stack[0], nil
+}
+
+// Validation functions:
+func IsValidToken(token string) bool {
+	return token == "+" || token == "-" || token == "*" || token == "/" || token == "^"
+}
+
+func isValidNumber(token string) bool {
+	_, err := strconv.ParseFloat(token, 64)
+	return err == nil
 }
