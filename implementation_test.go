@@ -48,6 +48,25 @@ func TestPrefixToLisp(t *testing.T) {
 
 }
 
+func TestPrefixToLisp_InvalidInputs(t *testing.T) {
+	// Empty line
+	test8, err := PrefixToLisp("")
+	assert.NotNil(t, err)
+	assert.Equal(t, "", test8)
+
+	_, err = PrefixToLisp("+ a 2")
+	assert.NotNil(t, err)
+	assert.Contains(t, err.Error(), "invalid token")
+
+	_, err = PrefixToLisp("+ 1")
+	assert.NotNil(t, err)
+	assert.Contains(t, err.Error(), "not enough operands")
+
+	_, err = PrefixToLisp("+ 1 2 3")
+	assert.NotNil(t, err)
+	assert.Contains(t, err.Error(), "many operands")
+}
+
 func ExamplePrefixToLisp() {
 	res, _ := PrefixToLisp("+ 5 * - 4 2 ^ 3 2")
 	fmt.Println(res)

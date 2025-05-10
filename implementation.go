@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// PrefixToLisp converts a prefix expression into a Lisp-style expression.
+// PrefixToLisp converts a prefix expression into a Lisp-style expression
 func PrefixToLisp(input string) (string, error) {
 	if len(input) == 0 {
 		return "", fmt.Errorf("input is empty")
@@ -18,20 +18,17 @@ func PrefixToLisp(input string) (string, error) {
 	for i := len(tokens) - 1; i >= 0; i-- {
 		token := tokens[i]
 
-		// If token is a valid number, push it to the stack
 		if isValidNumber(token) {
 			stack = append(stack, token)
 		} else if IsValidToken(token) {
-			// If token is a valid operator, pop operands from the stack
 			if len(stack) < 2 {
 				return "", fmt.Errorf("invalid expression: not enough operands for operator %s", token)
 			}
 
 			operand_1 := stack[len(stack)-1]
 			operand_2 := stack[len(stack)-2]
-			stack = stack[:len(stack)-2] // Remove the two operands from the stack
+			stack = stack[:len(stack)-2]
 
-			// Format the result based on the operator
 			var result string
 			switch token {
 			case "+":
@@ -46,14 +43,12 @@ func PrefixToLisp(input string) (string, error) {
 				result = fmt.Sprintf("(pow %s %s)", operand_1, operand_2)
 			}
 
-			// Push the resulting expression back onto the stack
 			stack = append(stack, result)
 		} else {
 			return "", fmt.Errorf("invalid token: %s", token)
 		}
 	}
 
-	// At the end, there should only be one element in the stack: the final Lisp expression
 	if len(stack) != 1 {
 		return "", fmt.Errorf("invalid expression: many operands in final stack: %v", stack)
 	}
