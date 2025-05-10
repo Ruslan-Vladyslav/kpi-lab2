@@ -34,7 +34,7 @@ func PrefixToLisp(input string) (string, error) {
 			case "+":
 				result = fmt.Sprintf("(%s %s %s)", token, operand_1, operand_2)
 			case "-":
-				result = fmt.Sprintf("(%s %s %s)", token, operand_2, operand_2)
+				result = fmt.Sprintf("(%s %s %s)", token, operand_1, operand_2)
 			case "*":
 				result = fmt.Sprintf("(%s %s %s)", token, operand_1, operand_2)
 			case "/":
