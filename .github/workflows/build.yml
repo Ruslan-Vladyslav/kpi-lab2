@@ -1,0 +1,40 @@
+name: Go CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.22
+
+      - name: Go version
+        run: go version
+
+      - name: Dependencies
+        run: go mod tidy
+
+      - name: Clear cache
+        run: go clean -cache
+
+      - name: Working directory
+        run: pwd
+
+      - name: Run tests
+        run: go test ./... -v
+
+      - name: Build project
+        run: go build -o out/example ./cmd/example
